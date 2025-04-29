@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ShoppingCart } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { useState, useEffect } from "react";
 
 interface Product {
   id: number;
@@ -58,14 +59,47 @@ const sampleProducts: Product[] = [
 const FeaturedProducts = () => {
   const products = sampleProducts;
   const { toast } = useToast();
+  const [cart, setCart] = useState<Product[]>([]);
+
+  // Load cart from localStorage on component mount
+  useEffect(() => {
+    const savedCart = localStorage.getItem('rgsCart');
+    if (savedCart) {
+      try {
+        setCart(JSON.parse(savedCart));
+      } catch (e) {
+        console.error('Failed to parse cart from localStorage:', e);
+      }
+    }
+  }, []);
+
+  // Save cart to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('rgsCart', JSON.stringify(cart));
+  }, [cart]);
 
   const handleAddToCart = (product: Product) => {
     console.log(`Add ${product.name} to cart`);
-    toast({
-      title: "Added to cart",
-      description: `${product.name} has been added to your cart.`,
-      duration: 3000,
-    });
+    
+    // Check if product already exists in cart
+    const existingProductIndex = cart.findIndex(item => item.id === product.id);
+    
+    if (existingProductIndex >= 0) {
+      // Product already in cart, you could implement quantity logic here
+      toast({
+        title: "Already in cart",
+        description: `${product.name} is already in your cart.`,
+        duration: 3000,
+      });
+    } else {
+      // Add new product to cart
+      setCart([...cart, product]);
+      toast({
+        title: "Added to cart",
+        description: `${product.name} has been added to your cart.`,
+        duration: 3000,
+      });
+    }
   };
 
   return (

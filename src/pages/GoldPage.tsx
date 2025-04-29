@@ -7,9 +7,21 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ShoppingCart } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
+import { useState, useEffect } from "react";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+interface GoldProduct {
+  id: number;
+  name: string;
+  price: number;
+  image: string;
+  category: string;
+}
 
 const GoldPage = () => {
   const { toast } = useToast();
+  const [activeCategory, setActiveCategory] = useState<string>("All");
+  const [cart, setCart] = useState<GoldProduct[]>([]);
   
   // Format current date for "last updated"
   const currentDate = new Date();
@@ -87,14 +99,53 @@ const GoldPage = () => {
     "Pendants", "Bracelets", "Chains", "Mangalsutra"
   ];
 
-  const handleAddToCart = (product: any) => {
+  // Load cart from localStorage on component mount
+  useEffect(() => {
+    const savedCart = localStorage.getItem('rgsCart');
+    if (savedCart) {
+      try {
+        setCart(JSON.parse(savedCart));
+      } catch (e) {
+        console.error('Failed to parse cart from localStorage:', e);
+      }
+    }
+  }, []);
+
+  // Save cart to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem('rgsCart', JSON.stringify(cart));
+  }, [cart]);
+
+  const handleAddToCart = (product: GoldProduct) => {
     console.log(`Add ${product.name} to cart`);
-    toast({
-      title: "Added to cart",
-      description: `${product.name} has been added to your cart.`,
-      duration: 3000,
-    });
+    
+    // Check if product already exists in cart
+    const existingProductIndex = cart.findIndex(item => item.id === product.id);
+    
+    if (existingProductIndex >= 0) {
+      // Product already in cart, you could implement quantity logic here
+      toast({
+        title: "Already in cart",
+        description: `${product.name} is already in your cart.`,
+        duration: 3000,
+      });
+    } else {
+      // Add new product to cart
+      setCart([...cart, product]);
+      toast({
+        title: "Added to cart",
+        description: `${product.name} has been added to your cart.`,
+        duration: 3000,
+      });
+    }
   };
+
+  // Filter products based on selected category
+  const filteredProducts = activeCategory === "All" 
+    ? goldProducts 
+    : goldProducts.filter(product => 
+        product.category.toLowerCase() === activeCategory.toLowerCase()
+      );
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -114,20 +165,22 @@ const GoldPage = () => {
         </div>
         
         <div className="container mx-auto px-4 py-8">
-          <div className="flex flex-wrap gap-2 mb-8 justify-center">
-            {categories.map((category) => (
-              <Button 
-                key={category} 
-                variant={category === "All" ? "default" : "outline"}
-                className={category === "All" ? "bg-gold-DEFAULT hover:bg-gold-dark" : ""}
-              >
-                {category}
-              </Button>
-            ))}
-          </div>
+          <Tabs defaultValue="All" value={activeCategory} onValueChange={setActiveCategory} className="mb-8">
+            <TabsList className="flex flex-wrap justify-center gap-2 p-1">
+              {categories.map((category) => (
+                <TabsTrigger 
+                  key={category} 
+                  value={category}
+                  className={activeCategory === category ? "bg-gold-DEFAULT text-white" : ""}
+                >
+                  {category}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </Tabs>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {goldProducts.map((product) => (
+            {filteredProducts.map((product) => (
               <Card key={product.id} className="overflow-hidden product-card">
                 <div className="relative h-64 overflow-hidden bg-gray-100">
                   <img 
