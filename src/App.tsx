@@ -9,6 +9,7 @@ import NotFound from "./pages/NotFound";
 import GoldPage from "./pages/GoldPage";
 import SilverPage from "./pages/SilverPage";
 import ConverterPage from "./pages/ConverterPage";
+import AboutPage from "./pages/AboutPage";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ const App = () => (
           <Route path="/gold" element={<GoldPage />} />
           <Route path="/silver" element={<SilverPage />} />
           <Route path="/converter" element={<ConverterPage />} />
+          <Route path="/about" element={<AboutPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

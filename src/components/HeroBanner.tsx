@@ -4,7 +4,14 @@ import { Link } from "react-router-dom";
 
 const HeroBanner = () => {
   return (
-    <div className="hero relative h-[600px] flex items-center">
+    <div 
+      className="hero relative h-[600px] flex items-center" 
+      style={{
+        backgroundImage: "linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.1)), url('https://images.unsplash.com/photo-1601121141461-9d6647bca1ed?q=80&w=1920&auto=format&fit=crop')",
+        backgroundSize: "cover",
+        backgroundPosition: "center"
+      }}
+    >
       <div className="container mx-auto px-4">
         <div className="max-w-lg text-white">
           <h1 className="text-5xl font-serif font-bold mb-4">

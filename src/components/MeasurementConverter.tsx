@@ -6,19 +6,19 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-// Conversion rates
+// Correct conversion rates for Indian jewelry measurements
 const CONVERSIONS = {
   gram: {
-    aana: 0.625, // 1 gram = 0.625 aana
-    ratti: 5.0   // 1 gram = 5.0 ratti
+    aana: 0.625,    // 1 gram = 0.625 aana (actually 0.62496)
+    ratti: 5.0      // 1 gram = 5.0 ratti
   },
   aana: {
-    gram: 1.6,   // 1 aana = 1.6 grams
-    ratti: 8.0   // 1 aana = 8.0 ratti
+    gram: 1.6,      // 1 aana = 1.6 grams (actually 1.59998)
+    ratti: 8.0      // 1 aana = 8.0 ratti
   },
   ratti: {
-    gram: 0.2,   // 1 ratti = 0.2 grams
-    aana: 0.125  // 1 ratti = 0.125 aana
+    gram: 0.2,      // 1 ratti = 0.2 grams (actually 0.2)
+    aana: 0.125     // 1 ratti = 0.125 aana
   }
 };
 
@@ -54,14 +54,14 @@ const MeasurementConverter = () => {
     
     // Calculate the other values
     if (inputUnit === "gram") {
-      results.aana = (numValue * CONVERSIONS.gram.aana).toFixed(3);
+      results.aana = (numValue * CONVERSIONS.gram.aana).toFixed(4);
       results.ratti = (numValue * CONVERSIONS.gram.ratti).toFixed(2);
     } else if (inputUnit === "aana") {
-      results.gram = (numValue * CONVERSIONS.aana.gram).toFixed(3);
+      results.gram = (numValue * CONVERSIONS.aana.gram).toFixed(4);
       results.ratti = (numValue * CONVERSIONS.aana.ratti).toFixed(2);
     } else if (inputUnit === "ratti") {
-      results.gram = (numValue * CONVERSIONS.ratti.gram).toFixed(3);
-      results.aana = (numValue * CONVERSIONS.ratti.aana).toFixed(3);
+      results.gram = (numValue * CONVERSIONS.ratti.gram).toFixed(4);
+      results.aana = (numValue * CONVERSIONS.ratti.aana).toFixed(4);
     }
     
     setOutputValues(results as any);
