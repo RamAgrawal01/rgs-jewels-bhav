@@ -6,19 +6,19 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-// Correct conversion rates for Indian jewelry measurements
+// Updated conversion rates for Indian jewelry measurements
 const CONVERSIONS = {
   gram: {
-    aana: 0.625,    // 1 gram = 0.625 aana (actually 0.62496)
-    ratti: 5.0      // 1 gram = 5.0 ratti
+    aana: 1.372212692,  // 1 gram = 1.372212692 aana
+    ratti: 8.233276158  // 1 gram = 8.233276158 ratti
   },
   aana: {
-    gram: 1.6,      // 1 aana = 1.6 grams (actually 1.59998)
-    ratti: 8.0      // 1 aana = 8.0 ratti
+    gram: 0.72874,      // 1 aana = 0.72874 grams (1/1.372212692)
+    ratti: 6            // 1 aana = 6 ratti (8.233276158/1.372212692)
   },
   ratti: {
-    gram: 0.2,      // 1 ratti = 0.2 grams (actually 0.2)
-    aana: 0.125     // 1 ratti = 0.125 aana
+    gram: 0.121457,     // 1 ratti = 0.121457 grams (1/8.233276158)
+    aana: 0.166667      // 1 ratti = 0.166667 aana (1/6)
   }
 };
 

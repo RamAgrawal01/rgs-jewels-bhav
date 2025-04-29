@@ -32,8 +32,8 @@ const ConverterPage = () => {
                       In jewelry, it's commonly used to measure the weight of precious metals.
                     </p>
                     <div className="mt-4 text-sm">
-                      <p>1 gram = 0.625 aana</p>
-                      <p>1 gram = 5 ratti</p>
+                      <p>1 gram = 1.372 aana</p>
+                      <p>1 gram = 8.233 ratti</p>
                     </div>
                   </CardContent>
                 </Card>
@@ -46,8 +46,8 @@ const ConverterPage = () => {
                       It's particularly common in northern parts of India for gold and silver.
                     </p>
                     <div className="mt-4 text-sm">
-                      <p>1 aana = 1.6 grams</p>
-                      <p>1 aana = 8 ratti</p>
+                      <p>1 aana = 0.729 grams</p>
+                      <p>1 aana = 6 ratti</p>
                     </div>
                   </CardContent>
                 </Card>
@@ -60,8 +60,8 @@ const ConverterPage = () => {
                       It is derived from the weight of a specific seed.
                     </p>
                     <div className="mt-4 text-sm">
-                      <p>1 ratti = 0.2 grams</p>
-                      <p>1 ratti = 0.125 aana</p>
+                      <p>1 ratti = 0.121 grams</p>
+                      <p>1 ratti = 0.167 aana</p>
                     </div>
                   </CardContent>
                 </Card>
@@ -70,9 +70,9 @@ const ConverterPage = () => {
               <div className="mt-10">
                 <h2 className="text-2xl font-serif font-semibold mb-4">Common Conversion Tips</h2>
                 <ul className="list-disc pl-6 space-y-2 text-gray-700">
-                  <li>For quick estimation, 10 grams of gold is approximately 6.25 aana</li>
+                  <li>For quick estimation, 10 grams of gold is approximately 13.72 aana</li>
                   <li>1 tola (a common unit in South Asia) is equal to 11.66 grams</li>
-                  <li>8 ratti makes 1 masha, another traditional unit</li>
+                  <li>6 ratti makes 1 aana in traditional measurement</li>
                   <li>1 ounce of gold (international measurement) equals approximately 31.1 grams</li>
                 </ul>
               </div>
