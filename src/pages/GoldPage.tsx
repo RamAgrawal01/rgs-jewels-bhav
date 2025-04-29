@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { useState, useEffect } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import MetalPrices from "@/components/MetalPrices";
 
 interface GoldProduct {
   id: number;
@@ -158,8 +159,9 @@ const GoldPage = () => {
               Discover our exquisite collection of premium gold jewelry crafted with precision and elegance
             </p>
             
-            <div className="max-w-sm mx-auto mb-12">
-              <MetalPriceCard type="gold" initialPrice={6125} lastUpdate={formattedDate} />
+            <div className="container mx-auto px-4 py-122">
+              {/* <MetalPriceCard type="gold" initialPrice={6125} lastUpdate={formattedDate} /> */}
+              <MetalPrices/>
             </div>
           </div>
         </div>

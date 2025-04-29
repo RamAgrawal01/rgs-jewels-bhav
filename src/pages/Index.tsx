@@ -8,6 +8,8 @@ import FeaturedProducts from "@/components/FeaturedProducts";
 import CategorySection from "@/components/CategorySection";
 import { useToast } from "@/hooks/use-toast";
 import { useEffect } from "react";
+import MetalPrices from "@/components/MetalPrices";
+
 
 const Index = () => {
   const { toast } = useToast();
@@ -38,11 +40,12 @@ const Index = () => {
         <HeroBanner />
         
         <div className="container mx-auto px-4 py-12">
-          <h2 className="text-3xl font-serif font-semibold text-center mb-8">Today's Metal Prices</h2>
+          {/* <h2 className="text-3xl font-serif font-semibold text-center mb-8">Today's Metal Prices</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
             <MetalPriceCard type="gold" initialPrice={6125} lastUpdate={formattedDate} />
             <MetalPriceCard type="silver" initialPrice={78.50} lastUpdate={formattedDate} />
-          </div>
+          </div> */}
+          <MetalPrices/>
         </div>
         
         <div className="container mx-auto px-4 py-6">
