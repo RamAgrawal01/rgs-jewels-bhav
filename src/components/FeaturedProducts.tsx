@@ -63,19 +63,26 @@ const FeaturedProducts = () => {
 
   // Load cart from localStorage on component mount
   useEffect(() => {
-    const savedCart = localStorage.getItem('rgsCart');
-    if (savedCart) {
-      try {
-        setCart(JSON.parse(savedCart));
-      } catch (e) {
-        console.error('Failed to parse cart from localStorage:', e);
+    const loadCart = () => {
+      const savedCart = localStorage.getItem('rgsCart');
+      if (savedCart) {
+        try {
+          const parsedCart = JSON.parse(savedCart);
+          setCart(parsedCart);
+          console.log("Cart loaded from localStorage:", parsedCart);
+        } catch (e) {
+          console.error('Failed to parse cart from localStorage:', e);
+        }
       }
-    }
+    };
+    
+    loadCart();
   }, []);
 
   // Save cart to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem('rgsCart', JSON.stringify(cart));
+    console.log("Cart saved to localStorage:", cart);
   }, [cart]);
 
   const handleAddToCart = (product: Product) => {
@@ -93,7 +100,8 @@ const FeaturedProducts = () => {
       });
     } else {
       // Add new product to cart
-      setCart([...cart, product]);
+      const updatedCart = [...cart, product];
+      setCart(updatedCart);
       toast({
         title: "Added to cart",
         description: `${product.name} has been added to your cart.`,
@@ -118,6 +126,7 @@ const FeaturedProducts = () => {
                 alt={product.name}
                 className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                 onError={(e: React.SyntheticEvent<HTMLImageElement>) => {
+                  console.log("Image failed to load, using placeholder");
                   e.currentTarget.src = "/placeholder.svg";
                 }}
               />

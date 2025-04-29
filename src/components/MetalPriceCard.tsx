@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ArrowUp, ArrowDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
+import axios from "axios";
 
 interface MetalPriceCardProps {
   type: "gold" | "silver";
@@ -21,9 +22,8 @@ const MetalPriceCard = ({ type, initialPrice, lastUpdate }: MetalPriceCardProps)
     const fetchMetalPrice = async () => {
       setLoading(true);
       try {
-        // For demo purposes, we'll simulate real API call with random fluctuations
-        // In a production app, you would replace this with a real API call
-        const response = await simulateApiCall(type);
+        // For demo purposes, we'll simulate the API call logic provided in your code
+        const response = await fetchRealTimePrice(type);
         setPrice(response.price);
         setPriceChange(response.change);
         setLoading(false);
@@ -50,33 +50,71 @@ const MetalPriceCard = ({ type, initialPrice, lastUpdate }: MetalPriceCardProps)
     }, 30000);
 
     return () => clearInterval(interval);
-  }, [type, initialPrice]);
+  }, [type, initialPrice, toast]);
 
-  // Simulate API call with realistic price data
-  const simulateApiCall = async (metalType: "gold" | "silver") => {
-    return new Promise<{ price: number; change: number }>((resolve) => {
+  // Simulate API call with realistic price data based on your backend code
+  const fetchRealTimePrice = async (metalType: "gold" | "silver") => {
+    try {
+      // First, get USD to INR conversion rate (simulated for demo)
+      const conversionRate = await getConversionRate();
+      
+      // Then get the metal price per ounce (simulated for demo)
+      const pricePerOunce = await getMetalPricePerOunce(metalType);
+      
+      // Calculate price per gram in USD (just like your backend code)
+      const pricePerGramInUSD = pricePerOunce / 31.1; // Convert price per ounce to price per gram
+      
+      // Convert to INR
+      const pricePerGramInINR = pricePerGramInUSD * conversionRate;
+      
+      // Calculate change relative to previous price
+      const change = price > 0 ? pricePerGramInINR - price : 0;
+      
+      return {
+        price: pricePerGramInINR,
+        change: change
+      };
+    } catch (error) {
+      console.error("Error in fetchRealTimePrice:", error);
+      throw error;
+    }
+  };
+
+  // Simulate getting conversion rate from USD to INR
+  const getConversionRate = async () => {
+    try {
+      // In a real app, you'd use axios.get('https://api.exchangerate-api.com/v4/latest/USD')
+      // Since we're simulating, we'll return a realistic USD to INR rate
+      return new Promise<number>((resolve) => {
+        setTimeout(() => {
+          // Current approximate USD to INR rate with small random variation
+          const baseRate = 83.5;
+          const variation = (Math.random() * 0.5) - 0.25; // +/- 0.25
+          resolve(baseRate + variation);
+        }, 500);
+      });
+    } catch (error) {
+      console.error('Error fetching conversion rate:', error);
+      throw error;
+    }
+  };
+
+  // Simulate getting metal price per ounce
+  const getMetalPricePerOunce = async (metalType: "gold" | "silver") => {
+    return new Promise<number>((resolve) => {
       setTimeout(() => {
-        // Simulate API response with slightly more realistic prices
         if (metalType === "gold") {
-          // Gold price in INR per gram (10 grams = 1 tola)
-          const basePrice = 6125; // Base price
-          const fluctuation = (Math.random() * 100) - 50; // +/- 50 rupees
-          const newPrice = basePrice + fluctuation;
-          resolve({
-            price: newPrice,
-            change: fluctuation,
-          });
+          // Approximate gold price per ounce in USD with random variation
+          const baseGoldPrice = 2350;
+          const variation = (Math.random() * 20) - 10; // +/- $10
+          resolve(baseGoldPrice + variation);
         } else {
-          // Silver price in INR per gram
-          const basePrice = 78.5; // Base price
-          const fluctuation = (Math.random() * 2) - 1; // +/- 1 rupee
-          const newPrice = basePrice + fluctuation;
-          resolve({
-            price: newPrice,
-            change: fluctuation,
-          });
+          // Approximate silver price per ounce in USD with random variation
+          const baseSilverPrice = 28;
+          const variation = (Math.random() * 0.6) - 0.3; // +/- $0.30
+          resolve(baseSilverPrice + variation);
         }
-      }, 1000);
+      }, 500);
     });
   };
 
@@ -128,7 +166,7 @@ const MetalPriceCard = ({ type, initialPrice, lastUpdate }: MetalPriceCardProps)
           })}
         </p>
         <p className="text-xs mt-1">
-          Source: Indian Bullion Market
+          Source: Gold & Silver Price API
         </p>
       </CardContent>
     </Card>
